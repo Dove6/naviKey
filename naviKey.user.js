@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         naviKey
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/Dove6/naviKey
 // @version      1.4
 // @description  Keyboard navigation for prawojazdy.com.pl tests
 // @author       Dawid Sygocki

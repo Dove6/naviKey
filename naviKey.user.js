@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         naviKey
-// @namespace    https://github.com/Dove6/naviKey
-// @version      1.4
-// @description  Keyboard navigation for prawojazdy.com.pl tests
+// @namespace    http://tampermonkey.net/
+// @version      2.0
+// @description  Keyboard navigation for prawojazdy.com.pl exams
 // @author       Dawid Sygocki
 // @match        https://ekurs.prawojazdy.com.pl/prawojazdy/egzamin/148
 // @grant        none
@@ -16,36 +16,42 @@
 
 function naviKey(e) {
     var keyCode = e.code;
-	if (document.getElementById('navigatePrev') != null || document.getElementById('navigateNext') != null) {
-		if (keyCode == 'ArrowRight') {
-			Testexam.reviewNavigate('+');
-		} else if (keyCode == 'ArrowLeft') {
-			Testexam.reviewNavigate('-');
+	if (document.getElementById('endExamBtn').innerHTML == 'Powrót') {
+		if (document.getElementById('examScreen').style.display != 'none') {
+			if (keyCode == 'ArrowRight') {
+				Testexam.reviewNavigate('+');
+			} else if (keyCode == 'ArrowLeft') {
+				Testexam.reviewNavigate('-');
+			}
 		}
-	} else if (document.getElementById('endExamBtn') != null) {
-		if (document.getElementById('yesNo').display != 'none') {
-			if (keyCode == 'KeyT' || keyCode == 'KeyY') {
+	} else if (document.getElementById('navigateContainer').style.display == 'none') {
+		if (document.getElementById('yesNo').style.display != 'none') {
+			if (keyCode == 'KeyT' || keyCode == 'KeyY' || keyCode == 'Numpad1') {
 				document.getElementById('answerYes').click();
-			} else if (keyCode == 'KeyN') {
+			} else if (keyCode == 'KeyN' || keyCode == 'Numpad3') {
 				document.getElementById('answerNo').click();
 			}
-		} else if (document.getElementById('abc').display != 'none') {
-			if (keyCode == 'KeyA') {
+		} else if (document.getElementById('abc').style.display != 'none') {
+			if (keyCode == 'KeyA' || keyCode == 'Digit1' || keyCode == 'Numpad1') {
 				document.getElementById('answerAText').click();
-			} else if (keyCode == 'KeyB') {
+			} else if (keyCode == 'KeyB' || keyCode == 'Digit2' || keyCode == 'Numpad2') {
 				document.getElementById('answerBText').click();
-			} else if (keyCode == 'KeyC') {
+			} else if (keyCode == 'KeyC' || keyCode == 'Digit3' || keyCode == 'Numpad3') {
 				document.getElementById('answerCText').click();
 			}
 		}
 		if (keyCode == 'ArrowRight') {
-			if (document.getElementById('nextQuestionBtn').disabled != 'disabled') {
-				Testexam.nextQuestion();
-			}
-		} else if (keyCode == 'Space' || keyCode == 'Enter') {
-			if (document.getElementById('startQuestionBtn').style.display == 'none') {
-				if (document.getElementById('nextQuestionBtn').disabled != 'disabled') {
+			if (typeof(document.getElementById('nextQuestionBtn').disabled) != 'undefined') {
+				if (!document.getElementById('nextQuestionBtn').disabled) {
 					Testexam.nextQuestion();
+				}
+			}
+		} else if (keyCode == 'Space' || keyCode == 'Enter' || keyCode == 'NumpadEnter') {
+			if (document.getElementById('startQuestionBtn').style.display == 'none') {
+				if (typeof(document.getElementById('nextQuestionBtn').disabled) != 'undefined') {
+					if (!document.getElementById('nextQuestionBtn').disabled) {
+						Testexam.nextQuestion();
+					}
 				}
 			} else {
 				Testexam.showMultimediaFile();
